@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: df7ee17f2c60d3240a9d5ef4b7274e6a
+timeCreated: 1509822446
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Co Headline
+  fontNames:
+  - Co Headline
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
