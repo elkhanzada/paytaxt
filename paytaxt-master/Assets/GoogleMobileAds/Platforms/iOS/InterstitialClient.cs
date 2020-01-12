@@ -24,7 +24,7 @@ using GoogleMobileAds.Common;
 
 namespace GoogleMobileAds.iOS
 {
-    public class InterstitialClient : IInterstitialClient, IDisposable
+    public class InterstitialClient : IInterstitialClient
     {
         private IntPtr interstitialPtr;
         private IntPtr interstitialClientPtr;
@@ -110,6 +110,12 @@ namespace GoogleMobileAds.iOS
         public void DestroyInterstitial()
         {
             this.InterstitialPtr = IntPtr.Zero;
+        }
+
+        // Returns the mediation adapter class name.
+        public string MediationAdapterClassName()
+        {
+            return Utils.PtrToString(Externs.GADUMediationAdapterClassNameForInterstitial(this.InterstitialPtr));
         }
 
         public void Dispose()

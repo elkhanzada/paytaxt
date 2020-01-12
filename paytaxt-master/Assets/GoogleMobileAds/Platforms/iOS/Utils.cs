@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 using GoogleMobileAds.Api;
 using GoogleMobileAds.Api.Mediation;
@@ -62,6 +63,8 @@ namespace GoogleMobileAds.iOS
                 Externs.GADUSetExtra(requestPtr, entry.Key, entry.Value);
             }
 
+            Externs.GADUSetExtra(requestPtr, "is_unity", "1");
+
             foreach (MediationExtras mediationExtra in request.MediationExtras)
             {
                 IntPtr mutableDictionaryPtr = Externs.GADUCreateMutableDictionary();
@@ -86,6 +89,35 @@ namespace GoogleMobileAds.iOS
             return requestPtr;
         }
 
+        public static IntPtr BuildServerSideVerificationOptions(ServerSideVerificationOptions options)
+        {
+            IntPtr optionsPtr = Externs.GADUCreateServerSideVerificationOptions();
+            Externs.GADUServerSideVerificationOptionsSetUserId(optionsPtr, options.UserId);
+            Externs.GADUServerSideVerificationOptionsSetCustomRewardString(optionsPtr, options.CustomData);
+
+            return optionsPtr;
+        }
+
+        public static string PtrToString(IntPtr stringPtr) {
+            string managedString = Marshal.PtrToStringAnsi(stringPtr);
+            Marshal.FreeHGlobal(stringPtr);
+            return managedString;
+        }
+
+        public static List<string> PtrArrayToManagedList(IntPtr arrayPtr, int numOfAssets) {
+            IntPtr[] intPtrArray = new IntPtr[numOfAssets];
+            string[] managedAssetArray = new string[numOfAssets];
+            Marshal.Copy(arrayPtr, intPtrArray, 0, numOfAssets);
+
+            for (int i = 0; i < numOfAssets; i++)
+            {
+                managedAssetArray[i] = Marshal.PtrToStringAuto(intPtrArray[i]);
+                Marshal.FreeHGlobal(intPtrArray[i]);
+            }
+
+            Marshal.FreeHGlobal(arrayPtr);
+            return new List<string>(managedAssetArray);
+        }
     }
 }
 
